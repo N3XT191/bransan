@@ -1,9 +1,12 @@
 <script>
+  import moment from 'moment';
+  import firebase from 'firebase';
   import Progress from "./lib/Progress.svelte";
   import db from "../firestore";
 
   let loading = true;
   let progresses = [];
+  let lastUpdated = null;
 
   db.collection("progressData")
     .orderBy("updatedOn")
@@ -11,8 +14,9 @@
     .get()
     .then((querySnapshot) => {
       console.log(querySnapshot);
-      let doc = querySnapshot.docs[0];
-      progresses = doc.data().data;
+      const doc = querySnapshot.docs[0].data();
+      progresses = doc.data;
+      lastUpdated = moment(doc.updatedOn.toDate()).fromNow();
       loading = false;
       console.log(progresses);
     });
@@ -24,11 +28,20 @@
       {#if loading}
         <div class="loading">Loading data! Please wait.</div>
       {:else}
+        {#if progresses !== []}
+        
         {#each progresses as progress}
           <Progress title={progress.title} percentage={progress.percentage} />
-        {:else}
-          <div class="error">Wait... Something went wrong.</div>
         {/each}
+        <div class="info">
+          Last updated: {lastUpdated}
+        </div>
+        {:else}
+           <div class="error">
+             Wait... Something went wrong.
+           </div>
+        {/if}
+
       {/if}
     </div>
   </div>
@@ -77,7 +90,7 @@
     padding: 80px;
     display: grid;
     grid-template-columns: 1;
-    gap: 20px;
+    gap: 25px;
     z-index: 2;
   }
 
