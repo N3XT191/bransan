@@ -1,0 +1,24 @@
+:root {
+    --background-color: hsl(208, 55%, 94%);
+
+    --title-font-size: 1rem;
+    --title-font-weight: 500;
+    --title-color: #3a3b3c;
+    --percentage-font-size: 0.7rem;
+    --percentage-font-weight: 300;
+    --percentage-color: #3a3b3c;
+
+    --progress-height: 30px;
+    --progress-color: #2095f2;
+    --progress-bg-color: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    :root{
+    }
+}
