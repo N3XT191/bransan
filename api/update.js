@@ -34,5 +34,5 @@ export default async function (req, res) {
         });
     });
     res.statusCode = 200;
-    res.json({message: "Success! Yay!"});
+    res.json({message: "Success! Yay! This is awesome!"});
 }
