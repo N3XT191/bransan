@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const DOMParser = require('dom-parser');
 const firebase = require("firebase/app");
-require("firebase/firestore");
+const firestore = require("firebase/firestore");
 
 const firebaseConfig = {
     apiKey: "AIzaSyBVX9U5QKfsnK_riVTVz_EPhx5OK1OVRZc",
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
     await getProgressData().then((data) => {
         db.collection('progressData').add({
             data: data,
-            updatedOn: admin.firestore.FieldValue.serverTimestamp()
+            updatedOn: firestore.FieldValue.serverTimestamp()
         });
     });
     res.statusCode = 200;
