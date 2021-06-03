@@ -79,17 +79,15 @@
     min-height: 100vh;
     background-color: var(--background-color);
     padding: 10px;
-    width: 100%;
-    position: absolute;
+    box-sizing: border-box;
   }
   #center-screen::after {
     content: "";
     background-image: url("assets/background.svg");
     background-position: center;
-    background-repeat: repeat; /* Do not repeat the image */
+    background-repeat: repeat;
     background-size: contain;
     opacity: 0.5;
-    padding: 10px;
     top: 0;
     left: 0;
     bottom: 0;
@@ -99,8 +97,6 @@
   }
 
   #container {
-    box-sizing: border-box;
-    min-width: 600px;
     background-color: white;
     border-radius: 25px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -118,7 +114,11 @@
   @media only screen and (max-width: 600px) {
     #container {
       padding: 40px;
-      min-width: auto;
+    }
+  }
+  @media only screen and (min-width: 880px) {
+    #container {
+      min-width: 600px;
     }
   }
 </style>

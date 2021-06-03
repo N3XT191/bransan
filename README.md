@@ -6,3 +6,4 @@
 3. Cron job, update progress continuously [Probably done]
 4. Push notifications when data changes
 5. Animations [DONE too]
+6. Dark mode
