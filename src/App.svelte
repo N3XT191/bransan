@@ -1,44 +1,35 @@
 <script>
   import Progress from "./lib/Progress.svelte";
+  import db from "../firestore";
 
+  let loading = true;
   let progresses = [];
 
-  fetch("https://www.brandonsanderson.com/", {
-    headers: {
-      "Content-Type": "application/json",
-      "API-Key": "secret",
-    },
-  })
-    .then(function (response) {
-      return response.text();
-    })
-    .then(function (html) {
-      let parser = new DOMParser();
-      let doc = parser.parseFromString(html, "text/html");
-
-      let labels = doc.querySelectorAll(".vc_label");
-      console.log(labels);
-      let percentages = doc.querySelectorAll(".vc_bar");
-      console.log(percentages);
-
-      for (let i = 0; i < labels.length; i++) {
-        progresses.push({
-          title: labels[i].textContent,
-          percentage: percentages[0].getAttribute("data-percentage-value"),
-        });
-      }
-    })
-    .catch(function (err) {
-      console.log("Failed to fetch page: ", err);
+  db.collection("progressData")
+    .orderBy("updatedOn")
+    .limit(1)
+    .get()
+    .then((querySnapshot) => {
+      console.log(querySnapshot);
+      let doc = querySnapshot.docs[0];
+      progresses = doc.data().data;
+      loading = false;
+      console.log(progresses);
     });
 </script>
 
 <main>
   <div id="center-screen">
     <div id="container">
-      {#each progresses as progress}
-        <Progress title={progress.title} percentage={progress.percentage} />
-      {/each}
+      {#if loading}
+        <div class="loading">Loading data! Please wait.</div>
+      {:else}
+        {#each progresses as progress}
+          <Progress title={progress.title} percentage={progress.percentage} />
+        {:else}
+          <div class="error">Wait... Something went wrong.</div>
+        {/each}
+      {/if}
     </div>
   </div>
 </main>
