@@ -28,6 +28,13 @@
         margin-bottom: 8px;
         text-align: left;
     }
+    .progress-percentage {
+
+        font-size: var(--percentage-font-size);
+        font-weight: var(--percentage-font-weight);
+        color: var(--percentage-color);
+
+    }
     .progress-container {
         height: var(--progress-height);
         width: 100%;

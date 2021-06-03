@@ -40,11 +40,9 @@ const getProgressData = async function () {
     return data;
 }
 
-console.log('test test test');
-
 module.exports = async (req, res) => {
-    await getProgressData().then((data) => {
-        db.collection('progressData').add({
+    await getProgressData().then(async (data) => {
+        await db.collection('testCollection').add({
             data: data,
             updatedOn: firebase.firestore.FieldValue.serverTimestamp()
         });

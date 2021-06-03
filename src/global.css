@@ -4,9 +4,10 @@
     --title-font-size: 1rem;
     --title-font-weight: 500;
     --title-color: #3a3b3c;
-    --percentage-font-size: 0.7rem;
-    --percentage-font-weight: 300;
-    --percentage-color: #3a3b3c;
+
+    --percentage-font-size: 1.05rem;
+    --percentage-font-weight: 500;
+    --percentage-color: grey;
 
     --progress-height: 30px;
     --progress-color: #2095f2;
@@ -20,5 +21,7 @@ body {
 
 @media only screen and (max-width: 600px) {
     :root{
+        --progress-height: 15px;
+        --percentage-font-size: 0.95rem;
     }
 }

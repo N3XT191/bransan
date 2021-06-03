@@ -83,7 +83,7 @@
 
   #container {
     box-sizing: border-box;
-    max-width: 600px;
+    min-width: 600px;
     background-color: white;
     border-radius: 25px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -93,10 +93,15 @@
     gap: 25px;
     z-index: 2;
   }
+  .info {
+    text-align: center;
+    color: grey;
+  }
 
   @media only screen and (max-width: 600px) {
     #container {
       padding: 40px;
+      min-width: auto;
     }
   }
 </style>
