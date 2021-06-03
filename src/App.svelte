@@ -1,15 +1,16 @@
 <script>
-  import moment from 'moment';
-  import firebase from 'firebase';
+  import moment from "moment";
   import Progress from "./lib/Progress.svelte";
   import db from "../firestore";
+  import { DoubleBounce } from "svelte-loading-spinners";
+	import { fade } from 'svelte/transition';
 
   let loading = true;
   let progresses = [];
   let lastUpdated = null;
 
   db.collection("progressData")
-    .orderBy("updatedOn")
+    .orderBy("updatedOn", "desc")
     .limit(1)
     .get()
     .then((querySnapshot) => {
@@ -23,28 +24,26 @@
 </script>
 
 <main>
-  <div id="center-screen">
-    <div id="container">
-      {#if loading}
-        <div class="loading">Loading data! Please wait.</div>
-      {:else}
-        {#if progresses !== []}
-        
-        {#each progresses as progress}
-          <Progress title={progress.title} percentage={progress.percentage} />
-        {/each}
-        <div class="info">
-          Last updated: {lastUpdated}
-        </div>
-        {:else}
-           <div class="error">
-             Wait... Something went wrong.
-           </div>
-        {/if}
-
-      {/if}
+  {#if loading}
+    <div id="loading-screen" transition:fade>
+      <DoubleBounce size="100" color="#2095f2" unit="px" duration="1s" />
     </div>
-  </div>
+  {:else}
+    <div id="center-screen" transition:fade>
+      <div id="container">
+        {#if progresses !== []}
+          {#each progresses as progress}
+            <Progress title={progress.title} percentage={progress.percentage} />
+          {/each}
+          <div class="info">
+            Last updated: {lastUpdated}
+          </div>
+        {:else}
+          <div class="error">Wait... Something went wrong.</div>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </main>
 
 <svelte:head>
@@ -60,6 +59,18 @@
     font-family: "Montserrat";
   }
 
+  #loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    padding: 10px;
+    width: 100%;
+    position: absolute;
+  }
+
   #center-screen {
     display: flex;
     flex-direction: column;
@@ -68,11 +79,17 @@
     min-height: 100vh;
     background-color: var(--background-color);
     padding: 10px;
+    width: 100%;
+    position: absolute;
   }
   #center-screen::after {
     content: "";
     background-image: url("assets/background.svg");
+    background-position: center;
+    background-repeat: repeat; /* Do not repeat the image */
+    background-size: contain;
     opacity: 0.5;
+    padding: 10px;
     top: 0;
     left: 0;
     bottom: 0;
