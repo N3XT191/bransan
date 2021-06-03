@@ -2,7 +2,7 @@
 
 ## Todo
 1. Title, favicon, open graph metadata
-2. Background pattern
+2. Background pattern [DONE YAY]
 3. Cron job, update progress continuously
 4. Push notifications when data changes
-5. 
+5. Animations

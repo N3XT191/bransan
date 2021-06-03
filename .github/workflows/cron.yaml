@@ -1,0 +1,12 @@
+name: 60-minute-cron
+on:
+  schedule:
+    - cron: '*/60 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update progress data
+        run: |
+          curl --request GET \
+          --url 'https://bransan.vercel.com/api/update'

@@ -56,6 +56,18 @@
     background-color: var(--background-color);
     padding: 10px;
   }
+  #center-screen::after {
+    content: "";
+    background-image: url("assets/background.svg");
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1;
+  }
+
   #container {
     box-sizing: border-box;
     max-width: 600px;
@@ -66,6 +78,7 @@
     display: grid;
     grid-template-columns: 1;
     gap: 20px;
+    z-index: 2;
   }
 
   @media only screen and (max-width: 600px) {
