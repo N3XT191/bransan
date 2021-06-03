@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-let firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBVX9U5QKfsnK_riVTVz_EPhx5OK1OVRZc",
     authDomain: "bransanprogressbars.firebaseapp.com",
     projectId: "bransanprogressbars",

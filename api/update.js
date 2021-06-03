@@ -1,6 +1,19 @@
-import * as fetch from 'node-fetch';
-import * as DOMParser from 'dom-parser';
-import db from "../firestore";
+const fetch = require('node-fetch');
+const DOMParser = require('dom-parser');
+const firebase = require("firebase/app");
+require("firebase/firestore");
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBVX9U5QKfsnK_riVTVz_EPhx5OK1OVRZc",
+    authDomain: "bransanprogressbars.firebaseapp.com",
+    projectId: "bransanprogressbars",
+    storageBucket: "bransanprogressbars.appspot.com",
+    messagingSenderId: "664667945076",
+    appId: "1:664667945076:web:1e644f710444ce7c6a3921"
+};
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
 
 const getProgressData = async function () {
     let data = [];
@@ -26,7 +39,8 @@ const getProgressData = async function () {
         })
     return data;
 }
-export default async function (req, res) {
+
+module.exports = async (req, res) => {
     await getProgressData().then((data) => {
         db.collection('progressData').add({
             data: data,
@@ -34,5 +48,5 @@ export default async function (req, res) {
         });
     });
     res.statusCode = 200;
-    res.json({message: "Success! Yay! This is awesome!"});
+    res.json({ message: "Success! Yay! This is awesome!" });
 }
