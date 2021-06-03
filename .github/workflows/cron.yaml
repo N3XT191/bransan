@@ -1,10 +1,10 @@
-name: 15-minute-cron
+name: 60-minute-cron
 on:
   push:
     branches:
       - main
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/60 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
