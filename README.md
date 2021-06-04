@@ -8,4 +8,5 @@
 5. Animations [DONE too]
 6. Dark mode
 7. Progress over the last year or a specific time
-8. 
+8. Make it a PWA
+9. 

@@ -15,6 +15,8 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+let lastData, lastDocId;
+
 const getProgressData = async function () {
     let data = [];
 
@@ -40,13 +42,53 @@ const getProgressData = async function () {
     return data;
 }
 
-module.exports = async (req, res) => {
+const checkDataAndUpdate = async function (req, res) {
+    if (lastDocId !== null) {
+        const querySnapshot = await db.collection("progressData")
+            .orderBy("checkedOn", "desc")
+            .limit(1)
+            .get();
+        if (querySnapshot.empty) {
+            await getProgressData().then(async (data) => {
+                const docRef = await db.collection('progressData').add({
+                    data: data,
+                    updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
+                    checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                lastData = data;
+                lastDocId = docRef.id;
+            });
+            res.statusCode = 200;
+            res.json({ message: "Data updated for the first time." });
+            return;
+        } else {
+            const doc = querySnapshot.docs[0].data();
+            lastData = doc.data;
+            lastDocId = querySnapshot.docs[0].id;
+        }
+    }
     await getProgressData().then(async (data) => {
-        await db.collection('progressData').add({
-            data: data,
-            updatedOn: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        if (JSON.stringify(data) === JSON.stringify(lastData)) {
+            await db.collection('progressData').doc(lastDocId).update({
+                checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            res.statusCode = 200;
+            res.json({ message: "Done checking. Data hasn't updated. Same old, same old." });
+        } else {
+            await db.collection('progressData').add({
+                data: data,
+                updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
+                checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            res.statusCode = 200;
+            res.json({ message: "Data updated! New document created." });
+        }
     });
-    res.statusCode = 200;
-    res.json({ message: "Success! Yay! This is awesome!" });
+
+}
+
+module.exports = async (req, res) => {
+    await checkDataAndUpdate(req, res);
 }
