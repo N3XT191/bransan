@@ -17,14 +17,23 @@ const db = firebase.firestore();
 
 let lastData, lastDocId;
 
-const compare = function (data1, data2) {
-    console.log(data1);
-    console.log(data2);
-    for (let key in data1) {
-        if (data1[key] !== data2[key]) {
-            return false;
-        }
+const isEqual = function(a, b) {
+    a.sort((x, y) => { 
+        return x.percentage - y.percentage;
+    });
+    b.sort((x, y) => { 
+        return x.percentage - y.percentage;
+    });
+    if (a.length != b.length) {
+        return false;
     }
+
+    for (let i = 0; i < a.length; i++) {
+        if ((a[i].title !== b[i].title) || (a[i].percentage !== b[i].percentage)) {
+            return false;
+        } 
+    }
+    
     return true;
 }
 
@@ -80,7 +89,7 @@ const checkDataAndUpdate = async function (req, res) {
         }
     }
     await getProgressData().then(async (data) => {
-        if (compare(data, lastData)) {
+        if (isEqual(data, lastData)) {
             await db.collection('progressData').doc(lastDocId).update({
                 checkedOn: firebase.firestore.FieldValue.serverTimestamp()
             });
