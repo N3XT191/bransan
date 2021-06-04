@@ -14,7 +14,7 @@ const firebase = admin.initializeApp(
 const messaging = firebase.messaging();
 
 module.exports = async (req, res) => {
-    messaging.subscribeToTopic(req.body, 'bransanupdate')
+    messaging.subscribeToTopic(req.body.token, 'bransanupdate');
 
     res.statusCode = 200;
     res.json({ message: "Done!" });

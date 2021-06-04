@@ -50,19 +50,7 @@
   {/if}
 </main>
 
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap"
-    rel="stylesheet"
-  />
-</svelte:head>
-
 <style>
-  main {
-    font-family: "Montserrat";
-  }
-
   #loading-screen {
     display: flex;
     flex-direction: column;
@@ -73,6 +61,14 @@
     padding: 10px;
     width: 100%;
     position: absolute;
+  }
+  #loading-screen::after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
+    content: url("assets/background.svg");
   }
 
   #center-screen {

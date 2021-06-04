@@ -1,31 +1,97 @@
 <script>
+    import { onMount } from "svelte";
     import { messaging } from "../../firebase";
 
-    let notificationEnabled = false;
-    if (Notification.permission === "granted") {
-        notificationEnabled = true;
-    }
+    let notificationState = Notification.permission;
 
-    const toggleNotifications = async (event) => {
-        event.preventDefault();
-        messaging
-            .getToken({vapidKey: "BMHHhXb5GBbGncoNwWtkcRw_EPe2wQh9zB1SL13AEH7zVKlyd2xIqtUwN1RfU_g7yQBXEwdmArexFGG01Swhepc"})
+    const toggleNotifications = async () => {
+        if (notificationState === "denied") return;
+        await messaging
+            .getToken({
+                vapidKey:
+                    "BMHHhXb5GBbGncoNwWtkcRw_EPe2wQh9zB1SL13AEH7zVKlyd2xIqtUwN1RfU_g7yQBXEwdmArexFGG01Swhepc",
+            })
             .then((token) => {
                 console.log(token);
-                notificationEnabled = true;
+                fetch("https://bransan.vercel.app/api/subscribe", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ token: token }),
+                })
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                notificationState = Notification.permission;
             })
             .catch((error) => {
                 console.log(error);
                 console.log("permission not given");
+                notificationState = Notification.permission;
             });
     };
+
+    onMount(async () => {
+        toggleNotifications();
+    });
 </script>
 
-{#if notificationEnabled}
-    <button> notification enabled </button>
-{:else}
-    <button on:click={toggleNotifications}> notification disabled </button>
-{/if}
+<div id="button-container">
+    <button
+        id="notification-button"
+        class="button"
+        class:fixed={notificationState !== "default"}
+        on:click={toggleNotifications}
+    >
+        {notificationState === "default"
+            ? "Enable notifications"
+            : notificationState === "granted"
+            ? "Notifications enabled"
+            : "Notifications blocked"}
+    </button>
+    <div id="dot" />
+    <a
+        class="button"
+        href="https://github.com/shajidhasan/bransan"
+        id="github-button">GitHub</a
+    >
+</div>
 
 <style>
+    #button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    #dot {
+        height: 5px;
+        width: 5px;
+        background-color: grey;
+        border-radius: 50%;
+    }
+    .button {
+        text-decoration: none;
+        border: none;
+        background-color: white;
+        padding: 0px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        color: var(--progress-color);
+        font-family: "Times New Roman", Times, serif;
+    }
+    .fixed {
+        color: grey;
+    }
+    #notification-button {
+        margin-right: 5px;
+    }
+    #github-button {
+        margin-left: 5px;
+    }
 </style>
