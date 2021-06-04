@@ -82,6 +82,8 @@ const checkDataAndUpdate = async function (req, res) {
                 checkedOn: firebase.firestore.FieldValue.serverTimestamp()
             });
 
+            // send notifications!
+
             res.statusCode = 200;
             res.json({ message: "Data updated! New document created." });
         }

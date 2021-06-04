@@ -10,14 +10,14 @@
   let lastUpdated = null;
 
   db.collection("progressData")
-    .orderBy("updatedOn", "desc")
+    .orderBy("checkedOn", "desc")
     .limit(1)
     .get()
     .then((querySnapshot) => {
       console.log(querySnapshot);
       const doc = querySnapshot.docs[0].data();
       progresses = doc.data;
-      lastUpdated = moment(doc.updatedOn.toDate()).fromNow();
+      lastUpdated = moment(doc.checkedOn.toDate()).fromNow();
       loading = false;
       console.log(progresses);
     });
