@@ -2,14 +2,14 @@ const fetch = require('node-fetch');
 const DOMParser = require('dom-parser');
 const admin = require("firebase-admin");
 const { v4: uuid } = require('uuid');
-const firebase = admin.initializeApp(
-    {
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            privateKey: process.env.FIREBASE_ADMIN_KEY,
-            clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-        }),
-    },
+
+const firebase = admin.initializeApp({
+    credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        privateKey: process.env.FIREBASE_ADMIN_KEY,
+        clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+    }),
+},
     uuid()
 );
 
@@ -74,8 +74,8 @@ const checkDataAndUpdate = async function (req, res) {
             await getProgressData().then(async (data) => {
                 const docRef = await db.collection('progressData').add({
                     data: data,
-                    updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
-                    checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+                    updatedOn: admin.firestore.FieldValue.serverTimestamp(),
+                    checkedOn: admin.firestore.FieldValue.serverTimestamp()
                 });
                 lastData = data;
                 lastDocId = docRef.id;
@@ -92,7 +92,7 @@ const checkDataAndUpdate = async function (req, res) {
     await getProgressData().then(async (data) => {
         if (isEqual(data, lastData)) {
             await db.collection('progressData').doc(lastDocId).update({
-                checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+                checkedOn: admin.firestore.FieldValue.serverTimestamp()
             });
 
             res.statusCode = 200;
@@ -100,8 +100,8 @@ const checkDataAndUpdate = async function (req, res) {
         } else {
             const docRef = await db.collection('progressData').add({
                 data: data,
-                updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
-                checkedOn: firebase.firestore.FieldValue.serverTimestamp()
+                updatedOn: admin.firestore.FieldValue.serverTimestamp(),
+                checkedOn: admin.firestore.FieldValue.serverTimestamp()
             });
 
             lastDocId = docRef.id;
