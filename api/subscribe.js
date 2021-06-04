@@ -14,7 +14,7 @@ const firebase = admin.initializeApp(
 const messaging = firebase.messaging();
 
 module.exports = async (req, res) => {
-    console.log(req);
+    console.log(req.body);
     
     res.statusCode = 200;
     res.json({ message: "Hmm!" });
