@@ -17,6 +17,16 @@ const db = firebase.firestore();
 
 let lastData, lastDocId;
 
+const compare = function(data1, data2) {
+    for (let key in data1) {
+        if (data1[key] !== data2[key]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 const getProgressData = async function () {
     let data = [];
 
@@ -68,7 +78,7 @@ const checkDataAndUpdate = async function (req, res) {
         }
     }
     await getProgressData().then(async (data) => {
-        if (JSON.stringify(data) === JSON.stringify(lastData)) {
+        if (compare(data, lastData)) {
             await db.collection('progressData').doc(lastDocId).update({
                 checkedOn: firebase.firestore.FieldValue.serverTimestamp()
             });
