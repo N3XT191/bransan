@@ -1,25 +1,28 @@
 <script>
   import moment from "moment";
   import Progress from "./lib/Progress.svelte";
-  import db from "../firestore";
+  import BottomButtons from "./lib/BottomButtons.svelte";
+  import { db, messaging } from "../firebase";
   import { DoubleBounce } from "svelte-loading-spinners";
-	import { fade } from 'svelte/transition';
+  import { fade } from "svelte/transition";
 
   let loading = true;
   let progresses = [];
-  let lastUpdated = null;
+  let lastChecked = null;
+
+  messaging.onMessage((payload) => {
+    console.log("Message received. ", payload);
+  });
 
   db.collection("progressData")
     .orderBy("checkedOn", "desc")
     .limit(1)
     .get()
     .then((querySnapshot) => {
-      console.log(querySnapshot);
       const doc = querySnapshot.docs[0].data();
       progresses = doc.data;
-      lastUpdated = moment(doc.checkedOn.toDate()).fromNow();
+      lastChecked = moment(doc.checkedOn.toDate()).fromNow();
       loading = false;
-      console.log(progresses);
     });
 </script>
 
@@ -36,8 +39,9 @@
             <Progress title={progress.title} percentage={progress.percentage} />
           {/each}
           <div class="info">
-            Last updated: {lastUpdated}
+            Last checked: {lastChecked}
           </div>
+          <BottomButtons />
         {:else}
           <div class="error">Wait... Something went wrong.</div>
         {/if}

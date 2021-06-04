@@ -1,27 +1,28 @@
 const fetch = require('node-fetch');
 const DOMParser = require('dom-parser');
-const firebase = require("firebase/app");
-require("firebase/firestore");
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBVX9U5QKfsnK_riVTVz_EPhx5OK1OVRZc",
-    authDomain: "bransanprogressbars.firebaseapp.com",
-    projectId: "bransanprogressbars",
-    storageBucket: "bransanprogressbars.appspot.com",
-    messagingSenderId: "664667945076",
-    appId: "1:664667945076:web:1e644f710444ce7c6a3921"
-};
-firebase.initializeApp(firebaseConfig);
+const admin = require("firebase-admin");
+const { v4: uuid } = require('uuid');
+const firebase = admin.initializeApp(
+    {
+        credential: admin.credential.cert({
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            privateKey: process.env.FIREBASE_ADMIN_KEY,
+            clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+        }),
+    },
+    uuid()
+);
 
 const db = firebase.firestore();
+const messaging = firebase.messaging();
 
 let lastData, lastDocId;
 
-const isEqual = function(a, b) {
-    a.sort((x, y) => { 
+const isEqual = function (a, b) {
+    a.sort((x, y) => {
         return x.percentage - y.percentage;
     });
-    b.sort((x, y) => { 
+    b.sort((x, y) => {
         return x.percentage - y.percentage;
     });
     if (a.length != b.length) {
@@ -31,9 +32,9 @@ const isEqual = function(a, b) {
     for (let i = 0; i < a.length; i++) {
         if ((a[i].title !== b[i].title) || (a[i].percentage !== b[i].percentage)) {
             return false;
-        } 
+        }
     }
-    
+
     return true;
 }
 
