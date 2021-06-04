@@ -17,7 +17,7 @@ const db = firebase.firestore();
 
 let lastData, lastDocId;
 
-const compare = function(data1, data2) {
+const compare = function (data1, data2) {
     console.log(data1);
     console.log(data2);
     for (let key in data1) {
@@ -67,7 +67,7 @@ const checkDataAndUpdate = async function (req, res) {
                     updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
                     checkedOn: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                lastData = Object.assign({}, data);
+                lastData = data;
                 lastDocId = docRef.id;
             });
             res.statusCode = 200;
@@ -75,7 +75,7 @@ const checkDataAndUpdate = async function (req, res) {
             return;
         } else {
             const doc = querySnapshot.docs[0].data();
-            lastData = Object.assign({}, doc.data);
+            lastData = doc.data;
             lastDocId = querySnapshot.docs[0].id;
         }
     }
@@ -95,7 +95,7 @@ const checkDataAndUpdate = async function (req, res) {
             });
 
             lastDocId = docRef.id;
-            lastData = Object.assign({}, data);
+            lastData = data;
 
             res.statusCode = 200;
             res.json({ message: "Data updated! New document created." });
