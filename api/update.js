@@ -115,7 +115,6 @@ const checkDataAndUpdate = async function (req, res) {
                 topic: "bransanupdate"
             };
             await messaging.send(message).then((response) => {
-                // Response is a message ID string.
                 console.log('Successfully sent message:', response);
             })
                 .catch((error) => {

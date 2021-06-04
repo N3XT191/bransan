@@ -12,5 +12,11 @@ const firebaseConfig = {
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
-const messaging = firebaseApp.messaging();
+let messaging;
+try {
+    messaging = firebaseApp.messaging();
+}
+catch (err) {
+    console.log("Could not instantiate messaging:", err);
+}
 export {db, messaging};

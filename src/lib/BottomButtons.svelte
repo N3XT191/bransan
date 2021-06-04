@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from "svelte";
     import { messaging } from "../../firebase";
 
     let notificationState = Notification.permission;
@@ -35,10 +34,6 @@
                 notificationState = Notification.permission;
             });
     };
-
-    onMount(async () => {
-        toggleNotifications();
-    });
 </script>
 
 <div id="button-container">
@@ -58,7 +53,8 @@
     <a
         class="button"
         href="https://github.com/shajidhasan/bransan"
-        id="github-button">GitHub</a
+        id="github-button"
+        target="_blank">GitHub</a
     >
 </div>
 
@@ -83,7 +79,7 @@
         font-size: 0.8rem;
         cursor: pointer;
         color: var(--progress-color);
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Comfortaa", cursive;
     }
     .fixed {
         color: grey;

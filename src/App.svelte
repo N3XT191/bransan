@@ -10,9 +10,10 @@
   let progresses = [];
   let lastChecked = null;
 
-  messaging.onMessage((payload) => {
-    console.log("Message received. ", payload);
-  });
+  if (messaging)
+    messaging.onMessage((payload) => {
+      console.log("Message received. ", payload);
+    });
 
   db.collection("progressData")
     .orderBy("checkedOn", "desc")
@@ -100,7 +101,7 @@
     background-color: white;
     border-radius: 25px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    padding: 80px;
+    padding: 40px 60px;
     display: grid;
     grid-template-columns: 1;
     gap: 25px;
