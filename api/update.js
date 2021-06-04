@@ -107,6 +107,21 @@ const checkDataAndUpdate = async function (req, res) {
             lastDocId = docRef.id;
             lastData = data;
 
+            const message = {
+                notification: {
+                    title: 'Brandon Sanderson Progress Updated',
+                    body: "Check out the new update in Brandon Sanderson's progress bars."
+                },
+                topic: "bransanupdate"
+            };
+            await messaging.send(message).then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+                .catch((error) => {
+                    console.log('Error sending message:', error);
+                });
+
             res.statusCode = 200;
             res.json({ message: "Data updated! New document created." });
         }
