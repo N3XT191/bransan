@@ -61,6 +61,9 @@ const getProgressData = async function () {
                 });
             }
         })
+    if (Math.random() < 0.5) {
+        data[0].percentage = 33;
+    }
     return data;
 }
 
@@ -111,10 +114,9 @@ const checkDataAndUpdate = async function (req, res) {
                 notification: {
                     title: 'Brandon Sanderson Progress Updated',
                     body: "Check out the new update in Brandon Sanderson's progress bars."
-                },
-                topic: "bransanupdate"
+                }
             };
-            await messaging.send(message).then((response) => {
+            await messaging.sendToTopic('bransanupdate', message).then((response) => {
                 console.log('Successfully sent message:', response);
             })
                 .catch((error) => {
