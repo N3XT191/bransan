@@ -19,7 +19,7 @@
     loading = true;
     await db
       .collection("progressData")
-      .orderBy("checkedOn", "desc")
+      .orderBy("updatedOn", "desc")
       .limit(1)
       .get()
       .then((querySnapshot) => {
