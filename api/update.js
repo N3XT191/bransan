@@ -61,9 +61,6 @@ const getProgressData = async function () {
                 });
             }
         })
-    if (Math.random() < 0.5) {
-        data[0].percentage = 33;
-    }
     return data;
 }
 

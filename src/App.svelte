@@ -12,28 +12,33 @@
 
   if (messaging)
     messaging.onMessage((payload) => {
-      console.log("Message received. ", payload);
+      loadData();
     });
 
-  db.collection("progressData")
-    .orderBy("checkedOn", "desc")
-    .limit(1)
-    .get()
-    .then((querySnapshot) => {
-      const doc = querySnapshot.docs[0].data();
-      progresses = doc.data;
-      lastChecked = moment(doc.checkedOn.toDate()).fromNow();
-      loading = false;
-    });
+  const loadData = async () => {
+    loading = true;
+    await db
+      .collection("progressData")
+      .orderBy("checkedOn", "desc")
+      .limit(1)
+      .get()
+      .then((querySnapshot) => {
+        const doc = querySnapshot.docs[0].data();
+        progresses = doc.data;
+        lastChecked = moment(doc.checkedOn.toDate()).fromNow();
+        loading = false;
+      });
+  };
+  loadData();
 </script>
 
 <main>
   {#if loading}
-    <div id="loading-screen" transition:fade>
+    <div id="loading-screen" transition:fade={{ duration: 800 }}>
       <DoubleBounce size="100" color="#2095f2" unit="px" duration="1s" />
     </div>
   {:else}
-    <div id="center-screen" transition:fade>
+    <div id="center-screen" transition:fade={{ duration: 800 }}>
       <div id="container">
         {#if progresses !== []}
           {#each progresses as progress}
@@ -96,7 +101,6 @@
     position: absolute;
     z-index: 1;
   }
-
   #container {
     background-color: white;
     border-radius: 25px;
