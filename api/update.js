@@ -113,7 +113,9 @@ const checkDataAndUpdate = async function (req, res) {
             const message = {
                 notification: {
                     title: 'Brandon Sanderson Progress Updated',
-                    body: "Check out the new update in Brandon Sanderson's progress bars."
+                    body: "Check out the new update in Brandon Sanderson's progress bars.",
+                    icon: "https://bransan.vercel.app/apple-touch-icon.png",
+                    click_action: "https://bransan.vercel.app"
                 }
             };
             await messaging.sendToTopic('bransanupdate', message).then((response) => {
