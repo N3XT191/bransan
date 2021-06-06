@@ -3,7 +3,7 @@
 
     let notificationState = null;
     if (messaging !== null) {
-        let notificationState = Notification.permission;
+        notificationState = Notification.permission;
     }
 
     const toggleNotifications = async () => {
