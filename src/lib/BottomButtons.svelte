@@ -1,9 +1,13 @@
 <script>
     import { messaging } from "../../firebase";
 
-    let notificationState = Notification.permission;
+    let notificationState = null;
+    if (messaging !== null) {
+        let notificationState = Notification.permission;
+    }
 
     const toggleNotifications = async () => {
+        if (notificationState === null) return;
         if (notificationState === "denied") return;
         await messaging
             .getToken({
