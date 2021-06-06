@@ -10,7 +10,7 @@
   let progresses = [];
   let lastChecked = null;
 
-  if (messaging)
+  if (messaging !== null)
     messaging.onMessage((payload) => {
       loadData();
     });
