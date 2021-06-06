@@ -12,11 +12,11 @@ const firebaseConfig = {
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
-let messaging;
+let messaging = null;
 try {
     messaging = firebaseApp.messaging();
 }
 catch (err) {
-    console.log("Could not instantiate messaging:", err);
+    console.log("This browser doesn't support Firebase Messaging.");
 }
 export {db, messaging};

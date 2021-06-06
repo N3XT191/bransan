@@ -37,18 +37,25 @@
 </script>
 
 <div id="button-container">
-    <button
-        id="notification-button"
-        class="button"
-        class:fixed={notificationState !== "default"}
-        on:click={toggleNotifications}
-    >
-        {notificationState === "default"
-            ? "Enable notifications"
-            : notificationState === "granted"
-            ? "Notifications enabled"
-            : "Notifications blocked"}
-    </button>
+    {#if messaging === null}
+        <button id="notification-button" class="button fixed">
+            Notifications unsupported
+        </button>
+    {:else}
+        <button
+            id="notification-button"
+            class="button"
+            class:fixed={notificationState !== "default"}
+            on:click={toggleNotifications}
+        >
+            {notificationState === "default"
+                ? "Enable notifications"
+                : notificationState === "granted"
+                ? "Notifications enabled"
+                : "Notifications blocked"}
+        </button>
+    {/if}
+
     <div id="dot" />
     <a
         class="button"
