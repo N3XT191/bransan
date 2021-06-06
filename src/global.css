@@ -1,88 +1,91 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;700&display=swap");
 
 :root {
-    --background-color: hsl(208, 55%, 94%);
+	--background-color: hsl(208, 55%, 94%);
 
-    --title-font-size: 1rem;
-    --title-font-weight: 700;
-    --title-color: #3a3b3c;
+	--title-font-size: 1rem;
+	--title-font-weight: 700;
+	--title-color: #3a3b3c;
 
-    --percentage-font-size: 1.05rem;
-    --percentage-font-weight: 500;
-    --percentage-color: grey;
+	--percentage-font-size: 1.05rem;
+	--percentage-font-weight: 500;
+	--percentage-color: grey;
 
-    --progress-height: 30px;
-    --progress-color: #2095f2;
-    --progress-bg-color: #ffffff;
+	--progress-height: 30px;
+	--progress-color: #2095f2;
+	--progress-bg-color: #ffffff;
 }
 
 html {
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none; 
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 html::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+	width: 0;
+	height: 0;
 }
 
-
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comfortaa', cursive;
+	margin: 0;
+	padding: 0;
+	font-family: "Comfortaa", cursive;
 }
 
 @media only screen and (max-width: 600px) {
-    :root{
-        --progress-height: 15px;
-        --percentage-font-size: 0.95rem;
-    }
+	body {
+		position: fixed;
+		overflow: hidden;
+		width: 100%;
+	}
+	:root {
+		--progress-height: 15px;
+		--percentage-font-size: 0.95rem;
+	}
 }
 
 /* Progress bar styles */
 
 .progress {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 }
 .progress-title {
-    font-size: var(--title-font-size);
-    font-weight: var(--title-font-weight);
-    color: var(--title-color);
-    margin-bottom: 8px;
-    text-align: left;
+	font-size: var(--title-font-size);
+	font-weight: var(--title-font-weight);
+	color: var(--title-color);
+	margin-bottom: 8px;
+	text-align: left;
 }
 .progress-percentage {
-
-    font-size: var(--percentage-font-size);
-    font-weight: var(--percentage-font-weight);
-    color: var(--percentage-color);
-
+	font-size: var(--percentage-font-size);
+	font-weight: var(--percentage-font-weight);
+	color: var(--percentage-color);
 }
 .progress-container {
-    height: var(--progress-height);
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+	height: var(--progress-height);
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
+
 .progress-total {
-    background-color: var(--progress-bg-color);
-    height: 100%;
-    width: 100%;
-    margin-right: 10px;
-    border-radius: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    box-sizing: border-box;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-        rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+	background-color: var(--progress-bg-color);
+	height: 100%;
+	width: 100%;
+	margin-right: 10px;
+	border-radius: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	box-sizing: border-box;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+		rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
+
 .progress-filled {
-    background-color: var(--progress-color);
-    border-radius: 2rem;
-    height: 100%;
+	background-color: var(--progress-color);
+	border-radius: 2rem;
+	height: 100%;
 }

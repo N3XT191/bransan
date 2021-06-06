@@ -111,6 +111,7 @@
     gap: 25px;
     z-index: 2;
   }
+ 
   .info {
     text-align: center;
     color: grey;
@@ -118,7 +119,11 @@
 
   @media only screen and (max-width: 600px) {
     #container {
-      padding: 40px;
+      border-radius: 0;
+      width:100%;
+    }
+    #center-screen{
+      padding:20px
     }
   }
   @media only screen and (min-width: 880px) {
